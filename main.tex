@@ -27,7 +27,7 @@ TESS - Villenueva (in prep)
 
 Also: Martti
 
-\subsection{Stellar Parameters}\ref{stellarparams}
+\subsection{Stellar Parameters}\label{stellarparams}
 
 \subsection{Monotransit search}
 
@@ -97,7 +97,7 @@ This will fit better than a transit model for candidates caused by discontinuiti
 For both of these models, we perform seven initial models with random initial parameters and a randomly-chosen optimisation function, keeping that with the highest log likelihood. 
 If no good model is found (defined as a model with a log likelihood$>-10^{9}$) within these seven fits, we increase the necessary polynomial and re-fit the models until one is.
 
-Once well-fitted models are found, we recompute the transit log likelihood and compare log likelihoods, marking any candidate where the sinusoidal or step models greatly outperform the transit model ($\log{\left({L_{\rn FP}}/{L_{\rn trans}}\right)}>5$).
+Once well-fitted models are found, we recompute the transit log likelihood and compare log likelihoods, marking any candidate where the sinusoidal or step models greatly outperform the transit model ($\log{\left({L_{\rm FP}}/{L_{\rm trans}}\right)}>5$).
 
 Next we fit a Gaussian model to the background flux. This is motivated by known false-positives in TESS data due to, i) an asteroid crossing the background aperture (which, due to the average background flux being subtract from the in-aperture flux, causes a dip) or ii) poor detrending of peaks in brightness due to reflected light.
 
@@ -121,7 +121,7 @@ Instead, a different modelling approach is needed to consider all potential peri
 One way is to perform marginalisation over the period parameter.
 Bayesian marginalisation is typically performed by integrating over the relative posterior probabilities given one parameter.
 \begin{equation}
-$$ p(\phi \mid d, M) \propto \int p(d \mid \phi, M) p (\phi \mid M) d\phi \ $$
+p(\phi \mid d, M) \propto \int p(d \mid \phi, M) p (\phi \mid M) d\phi 
 \end{equation}
 Where $p(\phi \mid d, M)$ is the posterior probability for parameter $phi$ given the data $d$ and model $M$. $p(d \mid \phi, M)$ is the likelihood function (i.e. the probability of the data $d$ given parameter $\phi$ and the model $M$), and $p (\phi \mid M)$ is the prior probability of the parameter.
 The evidence term on the denomination of the bayes rule, $p(d)$, is ignored here).
@@ -129,7 +129,7 @@ The evidence term on the denomination of the bayes rule, $p(d)$, is ignored here
 Rather than fitting for a period directly, a better method is to instead fit for the two transit centres, and marginalise over the integer number of periods between them.
 This means the marginalisation becomes a sum over the product of the likelihood and prior for each period alias.
 \begin{equation}
-$$ p(\phi \mid d, M) \propto \sum^{i=0}_{n_{\rm alias}} p(d \mid \phi, M) p (\phi \mid M) \; $$
+p(\phi \mid d, M) \propto \sum^{i=0}_{n_{\rm alias}} p(d \mid \phi, M) p (\phi \mid M) \;
 \end{equation}
 
 \subsubsection{The Period prior}
@@ -150,7 +150,7 @@ Resulting in a prior on orbital period of $P^{-8/3}$.
 However, such a prior is only true for circular orbits, and when an eccentric orbit is considered, a prior on only period is not possible.
 Instead, the geometric prior must be updated to include the planet-star separation during transit, and therefore the eccentricity $e$ and argument of periasteron $\omega$
 \begin{equation}
-    $$ p({\rm Tr} \mid e,a,\omega) = (R_s (1+ e\cos(\omega-\pi/2)) /(a (1-e^2)) \; $$
+p({\rm Tr} \mid e,a,\omega) = (R_s (1+ e\cos(\omega-\pi/2)) /(a (1-e^2)) \;
 \end{equation}
 
 Another prior can be included in the case of an eccentric orbit - the planets periasteron ($(a/R_s)*(1 - e)$) cannot intersect the star, and indeed is unlikely to pass within $2R_s$, where tidal forces would quickly recircularise the planet.
@@ -170,15 +170,15 @@ This therefore means that impact parameter is no longer the dominant source of t
 One way to avoid this problem is to re-parameterise a transit model from sampling in b to sampling directly in tdur.
 The simplest reformulation uses the approximate transit duration (this requires a small-angle approximation, i.e. that the planet's transit can be approximated to a straight line) and reuires the planet-to-star radius ratio, $R_p/R_s$, the period, $P$, gravitational constant $G$, and the stellar density $\rho_s$.
 \begin{equation}
-$$ T_{\rm dur, circ} = \sqrt{(1+R_p/R_s)^2 - b^2} (\frac{3 P}{\pi^2 G \rho_s})^{1/3}  \; $$
+T_{\rm dur, circ} = \sqrt{(1+R_p/R_s)^2 - b^2} (\frac{3 P}{\pi^2 G \rho_s})^{1/3}  \;
 \end{equation}
 This can then be adjusted to incorporate the change in planet velocity during transit (again, assuming the planetary transit can be approximated to a constant tangential velocity).
 \begin{equation}
-$$ T_{\rm dur} = T_{\rm dur, circ} \frac{\sqrt{1-e^2}}{1+e\cos{(\omega - \pi/2)}} \;$$
+T_{\rm dur} = T_{\rm dur, circ} \frac{\sqrt{1-e^2}}{1+e\cos{(\omega - \pi/2)}} \;
 \end{equation}
 When written in terms of $b$, this becomes
 \begin{equation}
-$$ b = \sqrt{(1+R_p/R_s)^2 - T^2 (\frac{1+e\cos{(\omega - \pi/2)}}{\sqrt{1-e^2}})^2 (\frac{\pi^2G\rho_s}{3P})^{2/3}} \;$$
+b = \sqrt{(1+R_p/R_s)^2 - T^2 (\frac{1+e\cos{(\omega - \pi/2)}}{\sqrt{1-e^2}})^2 (\frac{\pi^2G\rho_s}{3P})^{2/3}} \;
 \end{equation}
 However transit durations do not map perfectly to impact parameter - any duration longer than the maximum (i.e. $b=0$) duration given by the other parameters does not have a real b value.
 In these cases, we set impact parameter to zero and applied a strong prior to drive the MCMC chains to physical values.
@@ -191,10 +191,10 @@ As period can be derived from impact parameter using the following equation
 
 
 \begin{equation}
-$$ P = (\pi^2 G \rho_{\rm s} /3)(\frac{((1+R_p/R_s)^2 - b^2)(1-e^2)}{T^2 (1+e\cos{(\omega - \pi/2)})^2})^{3/2} \; $$
+P = (\pi^2 G \rho_{\rm s} /3)(\frac{((1+R_p/R_s)^2 - b^2)(1-e^2)}{T^2 (1+e\cos{(\omega - \pi/2)})^2})^{3/2} \;
 \end{equation}
 \begin{equation}
-$$ p(b \mid P) = \frac{d b}{d P} \propto b^{-1}P^{-5/2} \; $$
+p(b \mid P) = \frac{d b}{d P} \propto b^{-1}P^{-5/2} \;
 \end{equation}
 
 % \begin{equation}
